@@ -17,11 +17,11 @@ const moviesSchema = new Schema({
       required: true,
     },
   ],
-  Director: {
+  director: {
     type: String,
     required: true,
   },
-  Rating: {
+  rating: {
     type: String,
     required: true,
   },
@@ -33,7 +33,7 @@ const moviesSchema = new Schema({
     type: String,
     required: true,
   },
-  Year: {
+  year: {
     type: String,
     required: true,
   },

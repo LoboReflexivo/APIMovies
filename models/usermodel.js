@@ -13,7 +13,7 @@ const userSchema = new Schema({
     unique: true,
     trim: true,
     minLength: 6,
-    required: [true, "El correo es obligatoria"],
+    required: [true, "El correo es obligatorio"],
     match: [/^\S+@\S+\.\S+$/, "Correo incorrecto"],
   },
   password: {
@@ -35,6 +35,6 @@ const userSchema = new Schema({
     },
   ],
 });
-const userModel = mongoose.model("user", userSchema, "user");
+const userModel = mongoose.model("users", userSchema, "users");
 
 module.exports = userModel;

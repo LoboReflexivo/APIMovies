@@ -13,14 +13,9 @@ const PORT = 1998;
 const app = express();
 //analizamos los archvos JSON
 app.use(express.json());
-//Aquí escuhamos al puerto
-app.listen(PORT, () => {
-  console.log(`Server running http://localhost:${PORT}`);
-});
-
-//conectamos la base de datos con este archivo principal
 
 //CONEXIÓN CON MONGO
+//conectamos la base de datos con este archivo principal
 const url_mongo = process.env.DATABASE_URL_DEV;
 
 mongoose.connect(url_mongo);
@@ -37,4 +32,19 @@ db.on("connected", () => {
 
 db.on("disconected", () => {
   console.log(`Mongo is disconected`);
+});
+
+//CONECTADOR CON ROUTER
+
+const userRouter = require("./router/userRouter");
+const movieRouter = require("./router/movieRouter");
+const loginRouter = require("./router/loginRouter");
+
+app.use("/users", userRouter);
+app.use("/movies", movieRouter);
+app.use("/auth", loginRouter);
+
+//Aquí escuhamos al puerto
+app.listen(PORT, () => {
+  console.log(`Server running http://localhost:${PORT}`);
 });
