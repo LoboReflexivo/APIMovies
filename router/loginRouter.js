@@ -1,7 +1,8 @@
-const { loginUser } = require("../controllers/loginControllers");
+const { loginUser, refreshToken } = require("../controllers/loginControllers");
+const { verifyToken } = require("../middlewares/auth");
 
 const router = require("express").Router();
 
 router.post("/login", loginUser);
-
-module.exports = router;
+router.get("/refreshToken", verifyToken, refreshToken),
+  (module.exports = router);

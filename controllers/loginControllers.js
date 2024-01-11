@@ -50,6 +50,29 @@ const loginUser = async (req, res) => {
   }
 };
 
+/*
+Con el endpoint de refresh token podemos
+generar un nuevo token sin la necesidad de loguearnos
+nuevamente
+*/
+const refreshToken = async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Acceso denegado" });
+  }
+  const user = { id: req.user.id, email: req.user.email, role: req.user.role };
+  const token = generateToken(user, false);
+  const refreshToken = generateToken(user, true);
+  res.status(200).json({
+    status: "succeeded",
+    data: {
+      token,
+      refreshToken,
+    },
+    error: null,
+  });
+};
+
 module.exports = {
   loginUser,
+  refreshToken,
 };

@@ -2,6 +2,23 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const commentsSchema = new Schema({
+  //El esquema para añadir los comentarios
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: [true, "El comentario es obligatorio"],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const moviesSchema = new Schema({
   title: {
     type: String,
@@ -37,6 +54,12 @@ const moviesSchema = new Schema({
     type: String,
     required: true,
   },
+  comment: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "movies",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
