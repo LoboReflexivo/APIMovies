@@ -1,4 +1,5 @@
-const movieModel = require("../models/movieModel");
+const { movieModel } = require("../models/movieModel");
+const { userModel } = require("../models/userModel");
 
 //añadir pelis(solo admin)
 const loadMovie = async (req, res) => {
@@ -153,10 +154,10 @@ const moviePage = async (req, res) => {
     const page = req.query.page;
     const startIndex = (page - 1) * limit;
     const movies = await movieModel.find().skip(startIndex).limit(limit);
-    /*
 
+    /*
     Con JavaScript
-    
+
     cons limit = req.query.limit;
     const movies = await movieModel.find()
     const dondeSeEmpieza = page * limit - limit;
@@ -164,9 +165,37 @@ const moviePage = async (req, res) => {
     const final = movies.slice(dondeSeEmpieza, dondeAcaba);
 
     console.log(`Aqui empieza ${dondeSeEmpieza} y aquí se acaba ${dondeAcaba}`);
-    console.log(`El resultado final:     ${final}`);*/
+    console.log(`El resultado final:     ${final}`);
+    */
 
     res.status(201).json({ status: "succeeded", movies, error: null });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ status: "failed", data: null, error: error.message });
+  }
+};
+
+//Add comment
+
+const addcomment = async (req, res) => {
+  try {
+    const { comment } = req.body; //se coge el comentario escrito
+    const movieId = req.params.id; //se coge el id de la pelicula de los parámetros
+    const userId = req.user.id; //se coje el id del usuario que tiene el token
+    const user = await userModel.findById(userId); //se busca todos los datos del usuario
+    const movie = await movieModel.findById(movieId); //se busca todos los datos de la pelicula
+
+    movie.comment.push({
+      user: userId,
+      comment: comment,
+      name: user.name,
+    });
+
+    await movie.save();
+    console.log(movie);
+
+    res.status(201).json({ status: "succeeded", movie, error: null });
   } catch (error) {
     res
       .status(500)
@@ -183,4 +212,5 @@ module.exports = {
   deleteMovieDDBB,
   updateMovie,
   moviePage,
+  addcomment,
 };

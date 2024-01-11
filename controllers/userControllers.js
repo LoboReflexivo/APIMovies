@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+const { userModel } = require("../models/userModel");
 const movieModel = require("../models/movieModel");
 const bcrypt = require("bcrypt");
 const emailService = require("../services/emailServices");
@@ -130,21 +130,6 @@ const deleteFav = async (req, res) => {
   }
 };
 
-//GET TOKEN
-
-/*const getToken = async (req, res) => {
-  try {
-    
-    const user = req.user;
-    
-
-  } catch (error) {
-    res
-      .status(500)
-      .json({ status: "failed", data: null, error: error.message });
-  }
-};
-*/
 module.exports = {
   addUser,
   addFav,

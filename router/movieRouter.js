@@ -7,6 +7,7 @@ const {
   deleteMovieDDBB,
   updateMovie,
   moviePage,
+  addcomment,
 } = require("../controllers/movieControllers");
 const { verifyToken, verifyTokenAdmin } = require("../middlewares/auth");
 
@@ -20,5 +21,6 @@ router.get("/page", moviePage);
 router.delete("/id/:id", verifyTokenAdmin, deleteMovieDDBB); //only admin
 router.get("/id/:id", getMovieById);
 router.patch("/:id", verifyTokenAdmin, updateMovie); //onlyadmin
+router.patch("/comment/:id", verifyToken, addcomment);
 
 module.exports = router;

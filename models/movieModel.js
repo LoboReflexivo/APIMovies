@@ -2,16 +2,21 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+//El esquema para añadir los comentarios
 const commentsSchema = new Schema({
-  //El esquema para añadir los comentarios
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
     required: true,
   },
+  name: {
+    type: String,
+    ref: "users",
+    required: true,
+  },
   comment: {
     type: String,
-    required: [true, "El comentario es obligatorio"],
+    required: [true, "El comentario es obligatorio"], //El comentario es el único que lo ponemos en el body
   },
   createdAt: {
     type: Date,
@@ -46,7 +51,7 @@ const moviesSchema = new Schema({
     type: String,
     required: true,
   },
-  trailer: {
+  trailerUrl: {
     type: String,
     required: true,
   },
@@ -54,12 +59,7 @@ const moviesSchema = new Schema({
     type: String,
     required: true,
   },
-  comment: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "movies",
-    },
-  ],
+  comment: [commentsSchema], //Para añadir el esquema de los comentarios, solamente pongo el esquema aquí dentro de un array
   createdAt: {
     type: Date,
     default: Date.now,
@@ -68,4 +68,4 @@ const moviesSchema = new Schema({
 
 const movieModel = mongoose.model("movies", moviesSchema, "movies");
 
-module.exports = movieModel;
+module.exports = { movieModel };
